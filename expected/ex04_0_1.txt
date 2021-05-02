@@ -1,0 +1,4 @@
+sum: 1$
+difference: -1$
+product: 0$
+quotient: 0$

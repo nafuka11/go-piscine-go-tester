@@ -1,0 +1,4 @@
+Usage of ./echo42:$
+  -n	omit trailing newline$
+  -s string$
+    	separator (default " ")$

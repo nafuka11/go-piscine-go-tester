@@ -1,0 +1,4 @@
+sum: 16$
+difference: 8$
+product: 48$
+quotient: 3$

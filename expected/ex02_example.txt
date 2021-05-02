@@ -1,0 +1,2 @@
+marvin@student.42tokyo.jp is a valid email address.$
+abc@def.123 is NOT a valid email address.$
