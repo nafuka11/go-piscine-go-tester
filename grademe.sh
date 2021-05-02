@@ -121,7 +121,7 @@ test_ex06 () {
 	test_exe ex06_example_1 ${EX06_EXE} 12 34 555
 	test_exe ex06_example_2 ${EX06_EXE} -s / a bc def
 	test_exe ex06_example_3 ${EX06_EXE} -s XXXXXXX 12 34 56789
-	test_exe ex06_example_4 ${EX06_EXE} 12 34 555
+	test_exe ex06_example_4 ${EX06_EXE} -n 12 34 555
 	test_exe ex06_help ${EX06_EXE}  -help
 	test_exe ex06_no_arg ${EX06_EXE}
 }
