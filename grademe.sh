@@ -63,7 +63,11 @@ test_exe () {
 check_gofmt () {
 	result=`gofmt -d $1`
 	echo -n "gofmt: "
+	test -z "$result"
 	print_result $?
+	if [ -n "$result" ]; then
+		echo "$result"
+	fi
 }
 
 test_ex00 () {
