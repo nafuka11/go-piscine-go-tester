@@ -46,7 +46,7 @@ print_case () {
 # $1: name of test case
 # $2: exXX/file.go
 # $3: (optional) args
-test () {
+test_go () {
 	print_case "${@:2}"
 	go run $2 ${@:3} | cat -e > actual/$1.txt
 	diff expected/$1.txt actual/$1.txt
@@ -63,36 +63,40 @@ test_exe () {
 check_gofmt () {
 	result=`gofmt -d $1`
 	echo -n "gofmt: "
+	test -z "$result"
 	print_result $?
+	if [ -n "$result" ]; then
+		echo "$result"
+	fi
 }
 
 test_ex00 () {
 	print_header ex00
 	check_gofmt ${EX00_FILE}
-	test ex00 ${EX00_FILE}
+	test_go ex00 ${EX00_FILE}
 }
 
 test_ex01 () {
 	print_header ex01
 	check_gofmt ${EX01_FILE}
-	test ex01 ${EX01_FILE}
+	test_go ex01 ${EX01_FILE}
 }
 
 test_ex02 () {
 	print_header ex02
 	check_gofmt ${EX02_FILE}
-	test ex02_no_arg ${EX02_FILE}
-	test ex02_example ${EX02_FILE} marvin@student.42tokyo.jp abc@def.123
-	test ex02_257 ${EX02_FILE} veeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeery_long_email_address@example.com
+	test_go ex02_no_arg ${EX02_FILE}
+	test_go ex02_example ${EX02_FILE} marvin@student.42tokyo.jp abc@def.123
+	test_go ex02_257 ${EX02_FILE} veeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeery_long_email_address@example.com
 }
 
 test_ex03 () {
 	print_header ex03
 	check_gofmt ${EX03_FILE}
-	test ex03_1 ${EX03_FILE} 1
-	test ex03_4 ${EX03_FILE} 4
-	test ex03_10 ${EX03_FILE} 10
-	test ex03_12 ${EX03_FILE} 12
+	test_go ex03_1 ${EX03_FILE} 1
+	test_go ex03_4 ${EX03_FILE} 4
+	test_go ex03_10 ${EX03_FILE} 10
+	test_go ex03_12 ${EX03_FILE} 12
 }
 
 test_ex04 () {
