@@ -1,5 +1,8 @@
 # go-piscine-go-tester
 
+![screenshot](https://user-images.githubusercontent.com/42476527/117040909-5b3cec00-ad45-11eb-8253-e9b9d1bd49c3.png)
+
+
 go-piscine-go のテスターです。
 
 ## 使い方
