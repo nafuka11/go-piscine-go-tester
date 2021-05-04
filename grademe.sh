@@ -23,6 +23,7 @@ EX06_EXE="./echo42"
 RESET="\e[0m"
 GREEN="\e[32m"
 RED="\e[31m"
+YELLOW="\e[33m"
 EX_COLOR="\e[1m"
 CASE_COLOR="\e[4m"
 
@@ -41,6 +42,10 @@ print_header () {
 
 print_case () {
 	printf "${CASE_COLOR}$@${RESET}\n"
+}
+
+print_warn () {
+	printf "${YELLOW}$@${RESET}\n"
 }
 
 # $1: name of test case
@@ -68,6 +73,12 @@ check_gofmt () {
 	if [ -n "$result" ]; then
 		echo "$result"
 	fi
+}
+
+# $1: go file
+contains_main () {
+	grep "func main()" $1 > /dev/null
+	return $?
 }
 
 test_ex00 () {
@@ -102,20 +113,30 @@ test_ex03 () {
 test_ex04 () {
 	print_header ex04
 	check_gofmt ${EX04_FILE}
-	go build ${EX04_FILE}
-	test_exe ex04_no_arg ${EX04_EXE}
-	test_exe ex04_1 ${EX04_EXE} 1
-	test_exe ex04_12_4 ${EX04_EXE} 12 4
-	test_exe ex04_a_4 ${EX04_EXE} a 4
-	test_exe ex04_0_1 ${EX04_EXE} 0 1
-	test_exe ex04_1_0 ${EX04_EXE} 1 0
+	contains_main ${EX04_FILE}
+	if [ $? -ne 0 ]; then
+		go build ${EX04_FILE}
+		test_exe ex04_no_arg ${EX04_EXE}
+		test_exe ex04_1 ${EX04_EXE} 1
+		test_exe ex04_12_4 ${EX04_EXE} 12 4
+		test_exe ex04_a_4 ${EX04_EXE} a 4
+		test_exe ex04_0_1 ${EX04_EXE} 0 1
+		test_exe ex04_1_0 ${EX04_EXE} 1 0
+	else
+		print_warn "${EX04_FILE} doesn't implement main(). Tests skipped."
+	fi
 }
 
 test_ex05 () {
 	print_header ex05
 	check_gofmt ${EX05_FILE}
-	go build ${EX05_FILE}
-	${EX05_EXE}
+	contains_main ${EX05_FILE}
+	if [ $? -ne 0 ]; then
+		go build ${EX05_FILE}
+		${EX05_EXE}
+	else
+		print_warn "${EX05_FILE} doesn't implement main(). Tests skipped."
+	fi
 }
 
 test_ex06 () {
