@@ -77,7 +77,7 @@ check_gofmt () {
 
 # $1: go file
 contains_main () {
-	grep "func main()" $1 > /dev/null
+	grep -E "^func main()" $1 > /dev/null
 	return $?
 }
 
@@ -114,7 +114,7 @@ test_ex04 () {
 	print_header ex04
 	check_gofmt ${EX04_FILE}
 	contains_main ${EX04_FILE}
-	if [ $? -ne 0 ]; then
+	if [ $? -eq 0 ]; then
 		go build ${EX04_FILE}
 		test_exe ex04_no_arg ${EX04_EXE}
 		test_exe ex04_1 ${EX04_EXE} 1
@@ -131,7 +131,7 @@ test_ex05 () {
 	print_header ex05
 	check_gofmt ${EX05_FILE}
 	contains_main ${EX05_FILE}
-	if [ $? -ne 0 ]; then
+	if [ $? -eq 0 ]; then
 		go build ${EX05_FILE}
 		${EX05_EXE}
 	else
